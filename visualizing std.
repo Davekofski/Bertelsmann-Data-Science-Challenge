@@ -7,6 +7,8 @@
 import numpy as np
 import random
 import matplotlib.pyplot as plt
+
+#and for Jupyter Notebook
 %matplotlib inline
 
 
