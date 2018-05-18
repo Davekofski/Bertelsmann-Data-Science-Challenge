@@ -1,0 +1,54 @@
+#this code was to support my answer on a question asked in the Forum of the Bertelsmann Data Science Challenge.
+#to see the question visit: https://discussions.udacity.com/t/how-important-is-random-distribution-in-statistics/721259
+#the code is written on a jupyter notebook, to reproduce I recommend to download anaconda: https://www.anaconda.com/download/
+#to get the necessary data, please visit: https://www.kaggle.com/c/house-prices-advanced-regression-techniques
+
+
+import numpy as np
+import matplotlib.pyplot as plt
+%matplotlib inline
+import seaborn as sns
+import pandas as pd
+import math
+
+
+#to reproduce the graphs, save the files downloaded from kaggle in the file of your actual jupyter notebook
+train=pd.read_csv("train.csv")
+test = pd.read_csv("test.csv")
+dataset =  pd.concat(objs=[train, test], axis=0).reset_index(drop=True)
+
+
+###### for the visualisation of the lot size:
+
+sns.distplot(dataset['LotArea'].dropna(axis=0),bins=100)
+plt.title("lot area of houses in Iowa")
+
+#this comand saves the picture in the folder:
+plt.savefig('specify_name.png')
+
+plt.show()
+
+
+#we print also information about the moments of the distribution
+print("Mean: %f" % train['LotArea'].mean())
+print("Median: %f" % train['LotArea'].median())
+print("Kurtosis: %f" % train['LotArea'].kurt())
+
+
+
+##### for the visualisation of the house prices:
+
+#I log-transformed the variable to get a bell-shaped curve later on
+
+dataset["logSalePrice"]=dataset["SalePrice"].apply(math.log)
+sns.distplot(dataset["logSalePrice"].dropna(axis=0),bins=100)
+plt.title("log Sale Prices of Houses in Iowa")
+
+#this comand saves the picture in the folder:
+plt.savefig('specify_name.png')
+plt.show()
+
+#we print also information about the moments of the distribution
+print("Mean: %f" % train['SalePrice'].mean())
+print("Median: %f" % train['SalePrice'].median())
+print("Kurtosis: %f" % train['SalePrice'].kurt())
