@@ -57,5 +57,7 @@ for i in range(1000):
 sns.distplot(data_change,kde=True, bins=12)
 sns.distplot(data_stay, kde=True, bins=12, axlabel="number of times won")
 plt.legend(["change","stay"])
-plt.title("Absolut number of wins for 2 strategies")
+plt.title("Absolut number of wins for 2 strategies for "+str(n)+" games")
 plt.show()
+print("prob of win for 'change-strategy': "+str(np.mean(data_change))+" %")
+print("prob of win for 'stay-strategy': "+str(np.mean(data_stay))+" %")
