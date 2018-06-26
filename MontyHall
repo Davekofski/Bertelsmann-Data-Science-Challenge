@@ -1,0 +1,61 @@
+## Introduction to Bayesian Thinking, simulation of the Monty Hall Problem, Wiki introduction: https://en.wikipedia.org/wiki/Monty_Hall_problem
+## this code was produced in a Jupyter Notebook IDE
+
+
+#necessary inputs
+import numpy as np
+from matplotlib import pyplot as plt
+import seaborn as sns
+import random
+
+def monty_hall(n=100):
+    # n is the number of times the game should be simulated
+    prob_win_change=0
+    prob_win_stay=0
+    wins_stay=0
+    wins_change=0
+    player_choice=0
+    
+    #hide the treasure behind one door randomly, notice, that the door count starts at 0
+    for i in range(n):
+        treasure=random.choice(range(0,3))
+
+        #the player selects one door randomly as well
+        player_choice=random.choice(range(0,3))
+ 
+        #now the showmaster opens one of the remaining door (but never a door with the treasure behind it)
+        door_show=treasure
+        while door_show in [treasure,player_choice]:
+            i+=1
+            door_show=random.choice(range(0,3))      
+        
+        #now the showmaster asks the candidate whether he wants to change doors
+        player_change=player_choice
+        while player_change in [player_choice,door_show]:
+            player_change=random.choice(range(0,3))
+        if player_choice==treasure:
+            wins_stay+=1
+        if player_change==treasure:
+            wins_change+=1
+    prob_win_change=wins_change/n
+    prob_win_stay=wins_stay/n
+    return wins_change,wins_stay,prob_win_change,prob_win_stay
+    
+#now we can call the function and simulate it many times and record the , select n (how often the game is simulated) .
+data_change=[]
+data_stay=[]
+data_probc=[]
+data_probs=[]
+for i in range(1000):
+    wins_change,wins_stay,pc,ps=monty_hall(50)
+    data_change.append(wins_change)
+    data_stay.append(wins_stay)
+    data_probc.append(pc)
+    data_probs.append(ps)
+
+#visualize the situation and compare the winning probabilities if the player changed, vs probability when player sticked with former selection
+sns.distplot(data_change,kde=True, bins=12)
+sns.distplot(data_stay, kde=True, bins=12, axlabel="number of times won")
+plt.legend(["change","stay"])
+plt.title("Absolut number of wins for 2 strategies")
+plt.show()
